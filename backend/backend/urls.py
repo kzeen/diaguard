@@ -21,5 +21,6 @@ from api.views import ping
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/ping', ping),
-    path('api/users/', include('users.urls'))
+    path('api/users/', include('users.urls')),
+    path('api/predictions', include('predictions.urls')),
 ]
