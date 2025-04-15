@@ -1,4 +1,6 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
@@ -40,3 +42,20 @@ def login(request):
         else:
             return Response({'error': 'Invalid Credentials'}, status=status.HTTP_401_UNAUTHORIZED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def logout(request):
+    """
+    API endpoint to log out a user.
+    User must be authenticated via TokenAuthentication.
+    Deletes the user's token so that it cannot be used again, logging the user out.
+    """
+    request.user.auth_token.delete()
+
+    return Response(
+        {'detail': 'Successfully logged out.'},
+        status=status.HTTP_200_OK
+    )
