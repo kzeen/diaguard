@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import HealthInput, Prediction, Explanation, Recommendation
 
-# Register your models here.
+admin.site.register(HealthInput)
+admin.site.register(Prediction)
+admin.site.register(Explanation)
+admin.site.register(Recommendation)
