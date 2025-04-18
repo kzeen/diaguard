@@ -1,9 +1,16 @@
 from django.urls import path
-from django.http import JsonResponse
-
-def temp_view(request):
-    return JsonResponse({"message": "Predictions app working"})
+from .views import (
+    PredictView,
+    PredictionDetailView,
+    ExplanationDetailView,
+    RecommendationListView,
+)
 
 urlpatterns = [
-    path('', temp_view, name='predictions-home')
+    # POST
+    path('', PredictView.as_view(), name='predict'),
+    # GETs
+    path('<int:pk>/', PredictionDetailView.as_view(), name='prediction-detail'),
+    path('<int:pk>/explanation/', ExplanationDetailView.as_view(), name='prediction-explanation'),
+    path('<int:pk>/recommendations/', RecommendationListView.as_view(), name='prediction-recommendations'),
 ]

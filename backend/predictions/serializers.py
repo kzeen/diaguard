@@ -78,10 +78,6 @@ class PredictionRequestSerializer(HealthInputSerializer):
     # Will hold the response once create() assembles it.
     prediction = serializers.SerializerMethodField(read_only=True)
 
-    class Meta(HealthInputSerializer.Meta):
-        # keep same fields, add get_prediction output
-        fields = HealthInputSerializer.Meta.exclude + ('prediction',)
-
     def create(self, validated_data):
         """
         Expects self.context['request'].user to be present (enforced in view).
