@@ -6,14 +6,13 @@ from .models import (
     Recommendation,
 )
 from django.utils.translation import gettext_lazy as _
-from .ml_utils import predict_risk
+from .ml_utils import predict_risk, get_shap_values
 
 class HealthInputSerializer(serializers.ModelSerializer):
     """
     Serializes raw health data submitted by the user.
     Performs basic validation
     """
-
     class Meta:
         model = HealthInput
         # We don’t expose user (set in the view via request.user)
@@ -111,8 +110,13 @@ class PredictionRequestSerializer(HealthInputSerializer):
             confidence_score=confidence,
         )
 
-        # Placeholder explanation (empty JSON). Replace with SHAP/LIME later.
-        Explanation.objects.create(prediction=prediction, shap_values={}, lime_summary={})
+        # Placeholder explanation (empty JSON). Replace with LIME later.
+        shap_dict = get_shap_values(input_data)
+        Explanation.objects.create(
+            prediction=prediction,
+            shap_values=shap_dict,
+            lime_summary={},
+        )
 
         # Maybe generate auto recommendations (dummy example):
         Recommendation.objects.create(
@@ -121,16 +125,7 @@ class PredictionRequestSerializer(HealthInputSerializer):
             content='Increase your intake of leafy greens and reduce sugary drinks.',
         )
 
-        return health_input  # DRF will run to_representation()
+        return health_input
 
     def get_prediction(self, obj):
         return PredictionSerializer(obj.prediction).data
-
-    @staticmethod
-    def _dummy_risk_label(health_input):
-        # simplistic rule‑based stub
-        return (
-            Prediction.RiskLevel.HIGH
-            if health_input.bmi > 30 or health_input.hba1c > 6.5
-            else Prediction.RiskLevel.MEDIUM
-        )
