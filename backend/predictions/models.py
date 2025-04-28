@@ -11,20 +11,33 @@ class HealthInput(models.Model):
         related_name='health_inputs'
     )
 
+    class GenderChoices(models.TextChoices):
+        MALE = 'Male', _('Male')
+        FEMALE = 'Female', _('Female')
+        OTHER = 'Other', _('Other')
+
+    gender = models.CharField(
+        max_length=6,
+        choices=GenderChoices.choices,
+        default=GenderChoices.OTHER
+    )
+
     age = models.PositiveSmallIntegerField()
     hypertension = models.BooleanField(default=False)
     heart_disease = models.BooleanField(default=False)
 
     class SmokingChoices(models.TextChoices):
-        NEVER   = 'never',   _('Never')
-        FORMER  = 'former',  _('Former')
-        CURRENT = 'current', _('Current')
-        UNKNOWN = 'unknown', _('Unknown')
+        CURRENT     = 'current',     _('current')
+        EVER        = 'ever',        _('ever')
+        FORMER      = 'former',      _('former')
+        NEVER       = 'never',       _('never')
+        NOT_CURRENT = 'not current', _('not current')
+        NO_INFO     = 'No Info',     _('No Info')
 
     smoking_history = models.CharField(
-        max_length=10,
+        max_length=11,
         choices=SmokingChoices.choices,
-        default=SmokingChoices.UNKNOWN
+        default=SmokingChoices.NO_INFO
     )
 
     bmi = models.DecimalField(max_digits=5, decimal_places=2)           # ex. 32.15

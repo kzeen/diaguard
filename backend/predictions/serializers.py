@@ -6,6 +6,7 @@ from .models import (
     Recommendation,
 )
 from django.utils.translation import gettext_lazy as _
+from .ml_utils import predict_risk
 
 class HealthInputSerializer(serializers.ModelSerializer):
     """
@@ -19,6 +20,11 @@ class HealthInputSerializer(serializers.ModelSerializer):
         exclude = ('user',)
 
     # ---- field‑level validation examples ----
+    def validate_gender(self, value):
+        if value not in HealthInput.GenderChoices.values:
+            raise serializers.ValidationError(_('Invalid gender.'))
+        return value
+    
     def validate_age(self, value):
         if not 1 <= value <= 120:
             raise serializers.ValidationError(_('Age must be between 1 and 120.'))
@@ -70,8 +76,10 @@ class PredictionRequestSerializer(HealthInputSerializer):
     """
     Used for create‑prediction endpoint.
     Inherits all HealthInput fields, then overrides create()
-    to: 1) save HealthInput, 2) run ML inference (placeholder),
-    3) build the Prediction + (optionally) Explanation + Recs,
+    to: 
+    1) save HealthInput, 
+    2) run ML inference,
+    3) build the Prediction + Explanation + Recs,
     4) return a nested PredictionSerializer response.
     """
 
@@ -79,17 +87,23 @@ class PredictionRequestSerializer(HealthInputSerializer):
     prediction = serializers.SerializerMethodField(read_only=True)
 
     def create(self, validated_data):
-        """
-        Expects self.context['request'].user to be present (enforced in view).
-        """
         user = self.context['request'].user
         health_input = HealthInput.objects.create(user=user, **validated_data)
 
-        # -------------- ML inference placeholder --------------
-        # >>> replace with real model call later
-        risk_level = self._dummy_risk_label(health_input)
-        confidence = 0.83
-        # ------------------------------------------------------
+        # ML Inference
+        input_data = {
+            "gender": health_input.gender,
+            "age": health_input.age,
+            "hypertension": int(health_input.hypertension),
+            "heart_disease": int(health_input.heart_disease),
+            "smoking_history": health_input.smoking_history,
+            "bmi": float(health_input.bmi),
+            "HbA1c_level": float(health_input.hba1c),
+            "blood_glucose_level": float(health_input.blood_glucose),
+        }
+        result = predict_risk(input_data)
+        risk_level = result["label"]
+        confidence = result["probability"]
 
         prediction = Prediction.objects.create(
             health_input=health_input,
