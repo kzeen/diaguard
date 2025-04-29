@@ -110,3 +110,45 @@ class Recommendation(models.Model):
 
     def __str__(self):
         return f'{self.category.title()} recommendation #{self.id}'
+    
+class RecommendationTemplate(models.Model):
+    """
+    Reusable template for generating recommendations.
+    Categorized and optionally parameterized
+    """
+    class Category(models.TextChoices):
+        DIET      = 'diet',      _('Diet')
+        EXERCISE  = 'exercise',  _('Exercise')
+        HABITS    = 'habits',    _('Habits')
+    
+    class SubCategory(models.TextChoices):
+        WEIGHT_LOSS       = 'weight_loss',       _('Weight Loss')
+        CARB_CONTROL      = 'carb_control',      _('Carb Control')
+        HYDRATION         = 'hydration',         _('Hydration')
+        CARDIO            = 'cardio',            _('Cardio')
+        STRENGTH          = 'strength',          _('Strength Training')
+        FLEXIBILITY       = 'flexibility',       _('Flexibility')
+        SMOKING_CESSATION = 'smoking_cessation', _('Smoking Cessation')
+        SLEEP_HYGIENE     = 'sleep_hygiene',     _('Sleep Hygiene')
+        STRESS_REDUCTION  = 'stress_reduction',  _('Stress Reduction')
+
+    category = models.CharField(
+        max_length=10,
+        choices=Category.choices
+    )
+
+    sub_category = models.CharField(
+        max_length=20,
+        choices=SubCategory.choices
+    )
+
+    template_text = models.TextField(
+        help_text=_('Recommendation message, with optional {placeholders}')
+    )
+    created_at = models.DateField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['category', 'sub_category']
+
+    def __str__(self):
+        return f'{self.category}/{self.sub_category}: {self.template_text[:30]}...'
