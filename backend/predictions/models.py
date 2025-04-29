@@ -82,7 +82,7 @@ class Explanation(models.Model):
         related_name='explanation'
     )
     shap_values = models.JSONField(blank=True, null=True)
-    lime_summary = models.JSONField(blank=True, null=True)  # could use TextField if large
+    lime_summary = models.JSONField(blank=True, null=True)
 
     generated_at = models.DateTimeField(auto_now_add=True)
 
