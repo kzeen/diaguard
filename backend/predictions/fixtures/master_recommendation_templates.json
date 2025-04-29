@@ -25,7 +25,7 @@
     "fields": {
       "category": "diet",
       "sub_category": "hydration",
-      "template_text": "Staying hydrated supports glucose regulation. Aim for at least 8 cups (≈2 L) of water daily, and limit sugary or caffeinated beverages.",
+      "template_text": "Your blood glucose is {blood_glucose_level} mg/dL. Since elevated glucose can be better managed when you’re well-hydrated, aim for ≥8 cups (≈2 L) of water daily and limit sugary or caffeinated drinks.",
       "created_at": "2025-04-29"
     }
   },
@@ -35,7 +35,7 @@
     "fields": {
       "category": "exercise",
       "sub_category": "cardio",
-      "template_text": "Regular cardio helps improve insulin sensitivity. Start with 30 minutes of brisk walking or cycling, 5 days a week.",
+      "template_text": "At age {age}, regular cardio can improve insulin sensitivity. Start with 30 minutes of brisk walking or cycling, 5 days per week, to lower your diabetes risk.",
       "created_at": "2025-04-29"
     }
   },
@@ -45,7 +45,7 @@
     "fields": {
       "category": "exercise",
       "sub_category": "strength",
-      "template_text": "Including resistance training twice weekly can build muscle mass and support glucose control—try bodyweight exercises or light weights.",
+      "template_text": "With a BMI of {bmi}, adding resistance training twice weekly can build muscle and help control glucose—try bodyweight exercises or light weights.",
       "created_at": "2025-04-29"
     }
   },
@@ -55,7 +55,7 @@
     "fields": {
       "category": "exercise",
       "sub_category": "flexibility",
-      "template_text": "Add flexibility exercises like yoga or stretching at least 3 times a week to improve overall mobility and reduce injury risk.",
+      "template_text": "Heart disease status = {heart_disease}. Flexibility exercises like yoga or stretching 3×/week improve mobility and reduce cardiovascular strain.",
       "created_at": "2025-04-29"
     }
   },
@@ -65,7 +65,7 @@
     "fields": {
       "category": "habits",
       "sub_category": "smoking_cessation",
-      "template_text": "Smoking increases diabetes complications. Consider nicotine replacement or counseling—many programs offer free support lines.",
+      "template_text": "You reported '{smoking_history}' smoking. Quitting reduces diabetes complications—consider nicotine replacement or counseling programs for support.",
       "created_at": "2025-04-29"
     }
   },
@@ -85,7 +85,7 @@
     "fields": {
       "category": "habits",
       "sub_category": "stress_reduction",
-      "template_text": "Chronic stress can raise blood sugar. Practice relaxation techniques—try 5 minutes of deep breathing or mindfulness daily.",
+      "template_text": "Hypertension = {hypertension}. Chronic stress raises blood sugar; practice 5 minutes of deep breathing or mindfulness daily to help lower your risk.",
       "created_at": "2025-04-29"
     }
   },
@@ -95,7 +95,7 @@
     "fields": {
       "category": "diet",
       "sub_category": "weight_loss",
-      "template_text": "Consider tracking your meals with a food diary or app to identify high-calorie patterns and maintain portion control.",
+      "template_text": "Your BMI is {bmi}. Tracking meals helps identify high-calorie patterns and maintain portion control based on your BMI and glucose readings.",
       "created_at": "2025-04-29"
     }
   },
@@ -105,7 +105,7 @@
     "fields": {
       "category": "diet",
       "sub_category": "carb_control",
-      "template_text": "Swap one refined starch (white bread, pasta) per day for a whole-grain alternative to help reduce post-meal glucose spikes.",
+      "template_text": "Your fasting glucose is {blood_glucose_level} mg/dL. Swap one refined starch per day (e.g., white bread) for a whole grain to reduce post-meal spikes.",
       "created_at": "2025-04-29"
     }
   },
@@ -115,7 +115,7 @@
     "fields": {
       "category": "exercise",
       "sub_category": "cardio",
-      "template_text": "Break up long sitting periods: stand or walk for 5 minutes every hour to boost circulation and glycemic control.",
+      "template_text": "At age {age}, prolonged sitting weakens glycemic control. Stand or walk for 5 minutes every hour to boost circulation and lower your diabetes risk.",
       "created_at": "2025-04-29"
     }
   },
@@ -125,7 +125,7 @@
     "fields": {
       "category": "habits",
       "sub_category": "sleep_hygiene",
-      "template_text": "Avoid heavy meals and caffeine within 3 hours of bedtime to promote more restful sleep.",
+      "template_text": "Your blood glucose is {blood_glucose_level} mg/dL. Avoid heavy meals or caffeine within 3 hours of bedtime to promote restful sleep and stable overnight glucose.",
       "created_at": "2025-04-29"
     }
   },
@@ -135,7 +135,7 @@
     "fields": {
       "category": "habits",
       "sub_category": "stress_reduction",
-      "template_text": "Incorporate a short daily walk in nature or with a friend to lower stress hormones and improve mood.",
+      "template_text": "Your HbA1c is {HbA1c_level} %. Brief walks in nature lower stress hormones and can help manage your glucose levels—try 10 minutes daily..",
       "created_at": "2025-04-29"
     }
   },
@@ -145,7 +145,7 @@
     "fields": {
       "category": "habits",
       "sub_category": "hydration",
-      "template_text": "Consider starting each meal with a glass of water to help control appetite and support hydration.",
+      "template_text": "Your blood glucose is {blood_glucose_level} mg/dL. Starting each meal with a glass of water can curb appetite and support glucose balance.",
       "created_at": "2025-04-29"
     }
   }
