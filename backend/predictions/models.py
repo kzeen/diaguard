@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
+import re
 
 
 class HealthInput(models.Model):
@@ -40,8 +42,8 @@ class HealthInput(models.Model):
         default=SmokingChoices.NO_INFO
     )
 
-    bmi = models.DecimalField(max_digits=5, decimal_places=2)           # ex. 32.15
-    hba1c = models.DecimalField(max_digits=4, decimal_places=2)         # ex. 6.85
+    bmi = models.DecimalField(max_digits=5, decimal_places=2) # ex. 32.15
+    hba1c = models.DecimalField(max_digits=4, decimal_places=2) # ex. 6.85
     blood_glucose = models.DecimalField(max_digits=6, decimal_places=1) # ex. 145.0 mg/dL
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -149,6 +151,14 @@ class RecommendationTemplate(models.Model):
 
     class Meta:
         ordering = ['category', 'sub_category']
+
+    # Make sure only valid placeholders are allowed
+    def clean(self):
+        placeholders = set(re.findall(r"\{(\w+)\}", self.template_text))
+        allowed = {"bmi", "blood_glucose_level", "HbA1c_level", "age", "hypertension", "heart_disease", "smoking_history"}
+        invalid = placeholders - allowed
+        if invalid:
+            raise ValidationError(f"Invalid placeholders: {invalid}")
 
     def __str__(self):
         return f'{self.category}/{self.sub_category}: {self.template_text[:30]}...'
