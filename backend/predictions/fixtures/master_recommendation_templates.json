@@ -1,0 +1,152 @@
+[
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 1,
+    "fields": {
+      "category": "diet",
+      "sub_category": "weight_loss",
+      "template_text": "Your BMI is {bmi}. Aim for a gradual 5–7% weight loss by adopting a balanced calorie-controlled diet and at least 150 minutes of moderate exercise per week.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 2,
+    "fields": {
+      "category": "diet",
+      "sub_category": "carb_control",
+      "template_text": "Your fasting glucose is {blood_glucose_level} mg/dL. Reduce simple sugars—choose whole grains and high-fiber foods to help stabilize blood sugar.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 3,
+    "fields": {
+      "category": "diet",
+      "sub_category": "hydration",
+      "template_text": "Staying hydrated supports glucose regulation. Aim for at least 8 cups (≈2 L) of water daily, and limit sugary or caffeinated beverages.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 4,
+    "fields": {
+      "category": "exercise",
+      "sub_category": "cardio",
+      "template_text": "Regular cardio helps improve insulin sensitivity. Start with 30 minutes of brisk walking or cycling, 5 days a week.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 5,
+    "fields": {
+      "category": "exercise",
+      "sub_category": "strength",
+      "template_text": "Including resistance training twice weekly can build muscle mass and support glucose control—try bodyweight exercises or light weights.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 6,
+    "fields": {
+      "category": "exercise",
+      "sub_category": "flexibility",
+      "template_text": "Add flexibility exercises like yoga or stretching at least 3 times a week to improve overall mobility and reduce injury risk.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 7,
+    "fields": {
+      "category": "habits",
+      "sub_category": "smoking_cessation",
+      "template_text": "Smoking increases diabetes complications. Consider nicotine replacement or counseling—many programs offer free support lines.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 8,
+    "fields": {
+      "category": "habits",
+      "sub_category": "sleep_hygiene",
+      "template_text": "Good sleep habits support insulin sensitivity. Aim for 7–9 hours nightly: keep a regular schedule and reduce screen time before bed.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 9,
+    "fields": {
+      "category": "habits",
+      "sub_category": "stress_reduction",
+      "template_text": "Chronic stress can raise blood sugar. Practice relaxation techniques—try 5 minutes of deep breathing or mindfulness daily.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 10,
+    "fields": {
+      "category": "diet",
+      "sub_category": "weight_loss",
+      "template_text": "Consider tracking your meals with a food diary or app to identify high-calorie patterns and maintain portion control.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 11,
+    "fields": {
+      "category": "diet",
+      "sub_category": "carb_control",
+      "template_text": "Swap one refined starch (white bread, pasta) per day for a whole-grain alternative to help reduce post-meal glucose spikes.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 12,
+    "fields": {
+      "category": "exercise",
+      "sub_category": "cardio",
+      "template_text": "Break up long sitting periods: stand or walk for 5 minutes every hour to boost circulation and glycemic control.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 13,
+    "fields": {
+      "category": "habits",
+      "sub_category": "sleep_hygiene",
+      "template_text": "Avoid heavy meals and caffeine within 3 hours of bedtime to promote more restful sleep.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 14,
+    "fields": {
+      "category": "habits",
+      "sub_category": "stress_reduction",
+      "template_text": "Incorporate a short daily walk in nature or with a friend to lower stress hormones and improve mood.",
+      "created_at": "2025-04-29"
+    }
+  },
+  {
+    "model": "predictions.recommendationtemplate",
+    "pk": 15,
+    "fields": {
+      "category": "habits",
+      "sub_category": "hydration",
+      "template_text": "Consider starting each meal with a glass of water to help control appetite and support hydration.",
+      "created_at": "2025-04-29"
+    }
+  }
+]
