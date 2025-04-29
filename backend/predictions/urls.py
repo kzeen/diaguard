@@ -1,10 +1,5 @@
 from django.urls import path
-from .views import (
-    PredictView,
-    PredictionDetailView,
-    ExplanationDetailView,
-    RecommendationListView,
-)
+from .views import PredictView, PredictionDetailView, ExplanationDetailView, RecommendationListView
 
 urlpatterns = [
     # POST

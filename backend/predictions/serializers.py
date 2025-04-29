@@ -6,7 +6,7 @@ from .models import (
     Recommendation,
 )
 from django.utils.translation import gettext_lazy as _
-from .ml_utils import predict_risk, get_shap_values
+from .ml_utils import predict_risk, get_shap_values, get_lime_summary
 
 class HealthInputSerializer(serializers.ModelSerializer):
     """
@@ -110,12 +110,13 @@ class PredictionRequestSerializer(HealthInputSerializer):
             confidence_score=confidence,
         )
 
-        # Placeholder explanation (empty JSON). Replace with LIME later.
+        # SHAP and LIME explanations
         shap_dict = get_shap_values(input_data)
+        lime_list = get_lime_summary(input_data, num_features=5) # Top 5 features
         Explanation.objects.create(
             prediction=prediction,
             shap_values=shap_dict,
-            lime_summary={},
+            lime_summary=lime_list,
         )
 
         # Maybe generate auto recommendations (dummy example):
