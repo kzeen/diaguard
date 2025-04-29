@@ -94,8 +94,17 @@ def get_shap_values(input_data: dict) -> dict:
         shap_array = raw_shap[1]
     else:
         shap_array = raw_shap
-    shap_vals = shap_array[0]
-    return dict(zip(FEATURE_ORDER, shap_vals.tolist()))
+    shap_array = np.asarray(shap_array).flatten()
+
+    shap_dict = {}
+    for idx, feat in enumerate(FEATURE_ORDER):
+        try:
+            value = shap_array[idx]
+        except IndexError:
+            value = 0.0
+        shap_dict[feat] = float(value)
+
+    return shap_dict
 
 def get_lime_summary(input_data: dict, num_features: int = 5) -> list[dict]:
     """

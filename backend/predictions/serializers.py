@@ -1,12 +1,8 @@
 from rest_framework import serializers
-from .models import (
-    HealthInput,
-    Prediction,
-    Explanation,
-    Recommendation,
-)
+from .models import HealthInput, Prediction, Explanation, Recommendation
 from django.utils.translation import gettext_lazy as _
 from .ml_utils import predict_risk, get_shap_values, get_lime_summary
+from .engine import generate_recommendations
 
 class HealthInputSerializer(serializers.ModelSerializer):
     """
@@ -119,11 +115,14 @@ class PredictionRequestSerializer(HealthInputSerializer):
             lime_summary=lime_list,
         )
 
-        # Maybe generate auto recommendations (dummy example):
-        Recommendation.objects.create(
+        # Recommendations
+        Recommendation.objects.filter(prediction=prediction).delete()
+        generate_recommendations(
+            health_input=health_input,
             prediction=prediction,
-            category=Recommendation.Category.DIET,
-            content='Increase your intake of leafy greens and reduce sugary drinks.',
+            shap_values=shap_dict,
+            lime_summary=lime_list,
+            max_recs=5
         )
 
         return health_input
