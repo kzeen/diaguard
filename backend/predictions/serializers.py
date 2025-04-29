@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from .models import HealthInput, Prediction, Explanation, Recommendation
-from django.utils.translation import gettext_lazy as _
 from .ml_utils import predict_risk, get_shap_values, get_lime_summary
 from .engine import generate_recommendations
+from django.db import transaction
+from django.utils.translation import gettext_lazy as _
 
 class HealthInputSerializer(serializers.ModelSerializer):
     """
@@ -76,6 +77,7 @@ class PredictionRequestSerializer(HealthInputSerializer):
     2) run ML inference,
     3) build the Prediction + Explanation + Recs,
     4) return a nested PredictionSerializer response.
+    All in atomic transaction
     """
 
     # Will hold the response once create() assembles it.
@@ -83,47 +85,49 @@ class PredictionRequestSerializer(HealthInputSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
-        health_input = HealthInput.objects.create(user=user, **validated_data)
 
-        # ML Inference
-        input_data = {
-            "gender": health_input.gender,
-            "age": health_input.age,
-            "hypertension": int(health_input.hypertension),
-            "heart_disease": int(health_input.heart_disease),
-            "smoking_history": health_input.smoking_history,
-            "bmi": float(health_input.bmi),
-            "HbA1c_level": float(health_input.hba1c),
-            "blood_glucose_level": float(health_input.blood_glucose),
-        }
-        result = predict_risk(input_data)
-        risk_level = result["label"]
-        confidence = result["probability"]
+        with transaction.atomic():
+            health_input = HealthInput.objects.create(user=user, **validated_data)
 
-        prediction = Prediction.objects.create(
-            health_input=health_input,
-            risk_level=risk_level,
-            confidence_score=confidence,
-        )
+            # ML Inference
+            input_data = {
+                "gender": health_input.gender,
+                "age": health_input.age,
+                "hypertension": int(health_input.hypertension),
+                "heart_disease": int(health_input.heart_disease),
+                "smoking_history": health_input.smoking_history,
+                "bmi": float(health_input.bmi),
+                "HbA1c_level": float(health_input.hba1c),
+                "blood_glucose_level": float(health_input.blood_glucose),
+            }
+            result = predict_risk(input_data)
+            risk_level = result["label"]
+            confidence = result["probability"]
 
-        # SHAP and LIME explanations
-        shap_dict = get_shap_values(input_data)
-        lime_list = get_lime_summary(input_data, num_features=5) # Top 5 features
-        Explanation.objects.create(
-            prediction=prediction,
-            shap_values=shap_dict,
-            lime_summary=lime_list,
-        )
+            prediction = Prediction.objects.create(
+                health_input=health_input,
+                risk_level=risk_level,
+                confidence_score=confidence,
+            )
 
-        # Recommendations
-        Recommendation.objects.filter(prediction=prediction).delete()
-        generate_recommendations(
-            health_input=health_input,
-            prediction=prediction,
-            shap_values=shap_dict,
-            lime_summary=lime_list,
-            max_recs=5
-        )
+            # SHAP and LIME explanations
+            shap_dict = get_shap_values(input_data)
+            lime_list = get_lime_summary(input_data, num_features=5) # Top 5 features
+            Explanation.objects.create(
+                prediction=prediction,
+                shap_values=shap_dict,
+                lime_summary=lime_list,
+            )
+
+            # Recommendations
+            Recommendation.objects.filter(prediction=prediction).delete()
+            generate_recommendations(
+                health_input=health_input,
+                prediction=prediction,
+                shap_values=shap_dict,
+                lime_summary=lime_list,
+                max_recs=5
+            )
 
         return health_input
 
