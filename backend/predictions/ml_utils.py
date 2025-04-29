@@ -38,7 +38,8 @@ for col in FEATURE_ORDER:
     if col not in _df_encoded.columns:
         _df_encoded[col] = 0
 _X_bg = _df_encoded[FEATURE_ORDER].values
-_X_bg_scaled = _scaler.transform(_X_bg)
+df_bg = pd.DataFrame(_X_bg, columns=FEATURE_ORDER)
+_X_bg_scaled = _scaler.transform(df_bg)
 _lime_explainer = LimeTabularExplainer(
     _X_bg_scaled,
     feature_names=FEATURE_ORDER,
@@ -71,7 +72,7 @@ def _build_features(input_data: dict) -> np.ndarray:
         features[col] = 1
 
     arr = np.array([features[name] for name in FEATURE_ORDER]).reshape(1, -1)
-    return _scaler.transform(arr)
+    return _scaler.transform(pd.DataFrame(arr, columns=FEATURE_ORDER))
 
 def predict_risk(input_data: dict) -> dict:
     """
