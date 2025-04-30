@@ -110,6 +110,17 @@ class Recommendation(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    helpful = models.BooleanField(
+        null=True,
+        blank=True,
+        help_text=_('Did the user mark this recommendation as helpful?')
+    )
+    feedback_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text=_('When the user gave feedback')
+    )
+
     class Meta:
         ordering = ['category', 'created_at']
 

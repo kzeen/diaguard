@@ -3,6 +3,7 @@ from .models import HealthInput, Prediction, Explanation, Recommendation
 from .ml_utils import predict_risk, get_shap_values, get_lime_summary
 from .engine import generate_recommendations
 from django.db import transaction
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 class HealthInputSerializer(serializers.ModelSerializer):
@@ -12,10 +13,8 @@ class HealthInputSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = HealthInput
-        # We don’t expose user (set in the view via request.user)
         exclude = ('user',)
 
-    # ---- field‑level validation examples ----
     def validate_gender(self, value):
         if value not in HealthInput.GenderChoices.values:
             raise serializers.ValidationError(_('Invalid gender.'))
@@ -44,12 +43,18 @@ class HealthInputSerializer(serializers.ModelSerializer):
 class RecommendationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recommendation
-        fields = ('id', 'category', 'content', 'created_at')
+        fields = ('id', 'category', 'content', 'created_at', 'helpful', 'feedback_at')
+
+class RecommendationFeedbackSerializer(serializers.Serializer):
+    helpful = serializers.BooleanField()
+
+    def validate_helpful(self, value):
+        return value
 
 class ExplanationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Explanation
-        # Return full JSON blobs; frontend will parse
+        # Return full JSON, frontend will parse
         fields = ('shap_values', 'lime_summary', 'generated_at')
 
 class PredictionSerializer(serializers.ModelSerializer):

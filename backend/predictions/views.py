@@ -1,8 +1,10 @@
 from rest_framework import generics, permissions, authentication, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
-from .models import Prediction
-from .serializers import PredictionRequestSerializer, PredictionSerializer, ExplanationSerializer, RecommendationSerializer
+from django.utils import timezone
+from .models import Prediction, Recommendation
+from .serializers import PredictionRequestSerializer, PredictionSerializer, ExplanationSerializer, RecommendationSerializer, RecommendationFeedbackSerializer
 
 # POST /api/predictions/  (Create health input + prediction + ...)
 class PredictView(generics.CreateAPIView):
@@ -17,6 +19,29 @@ class PredictView(generics.CreateAPIView):
     def perform_create(self, serializer):
         # Simply save; all main work in serializer.create()
         serializer.save()
+
+# POST /api/predictions/{prediction_pk}/recommendations/{rec_pk}/feedback
+class RecommendationFeedbackView(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, prediction_pk, rec_pk):
+        prediction = get_object_or_404(Prediction, pk=prediction_pk)
+        if prediction.health_input.user != request.user:
+            return Response({"detail": "Not allowed."}, status=status.HTTP_403_FORBIDDEN)
+        
+        recommendation = get_object_or_404(Recommendation, pk=rec_pk, prediction=prediction)
+
+        serializer = RecommendationFeedbackSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        recommendation.helpful = serializer.validated_data['helpful']
+        recommendation.feedback_at = timezone.now()
+        recommendation.save()
+
+        out = RecommendationSerializer(recommendation)
+        return Response(out.data, status=status.HTTP_200_OK)
+    
 
 # GET /api/predictions/<pk>/  (Full result including explanation & recs)
 class PredictionDetailView(generics.RetrieveAPIView):
@@ -46,7 +71,7 @@ class ExplanationDetailView(generics.RetrieveAPIView):
             raise permissions.PermissionDenied('Not allowed.')
         return prediction.explanation
 
-# 4. GET /api/predictions/<pk>/recommendations/
+# GET /api/predictions/<pk>/recommendations/
 class RecommendationListView(generics.ListAPIView):
     serializer_class = RecommendationSerializer
     authentication_classes = [authentication.TokenAuthentication]
