@@ -1,10 +1,17 @@
 from rest_framework import generics, permissions, authentication, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.throttling import UserRateThrottle
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from .models import Prediction, Recommendation
 from .serializers import PredictionRequestSerializer, PredictionSerializer, ExplanationSerializer, RecommendationSerializer, RecommendationFeedbackSerializer
+
+class PredictionsThrottle(UserRateThrottle):
+    scope = 'predictions'
+
+class FeedbackThrottle(UserRateThrottle):
+    scope = 'feedback'
 
 # POST /api/predictions/  (Create health input + prediction + ...)
 class PredictView(generics.CreateAPIView):
@@ -15,6 +22,7 @@ class PredictView(generics.CreateAPIView):
     serializer_class = PredictionRequestSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    throttle_classes = [PredictionsThrottle]
 
     def perform_create(self, serializer):
         # Simply save; all main work in serializer.create()
@@ -24,6 +32,7 @@ class PredictView(generics.CreateAPIView):
 class RecommendationFeedbackView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    throttle_classes = [FeedbackThrottle]
 
     def post(self, request, prediction_pk, rec_pk):
         prediction = get_object_or_404(Prediction, pk=prediction_pk)

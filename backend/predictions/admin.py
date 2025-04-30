@@ -7,6 +7,8 @@ admin.site.register(Explanation)
 # To be able to modify rules without changing code
 @admin.register(RecommendationTemplate)
 class RecommendationTemplateAdmin(admin.ModelAdmin):
+    def has_change_permission(self, request, obj = None):
+        return request.user.role in ('admin', 'clinician') or request.user.is_superuser
     list_display = ('category', 'sub_category', 'template_text', 'created_at')
     list_filter  = ('category', 'sub_category')
     search_fields = ('template_text',)
