@@ -1,10 +1,22 @@
 import operator
-import os
-import csv
 from typing import Any
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
+from django.core.cache import cache
 from .models import Recommendation, RecommendationTemplate
+from .rules_loader import load_recommendation_rules
+
+TEMPLATE_CACHE_KEY = 'recommendation_template_map'
+TEMPLATE_TTL       = 24 * 3600
+
+def _get_template_map():
+    """
+    Returns a dict cached in local memory
+    """
+    tmpl_map = cache.get(TEMPLATE_CACHE_KEY)
+    if tmpl_map is None:
+        qs = RecommendationTemplate.objects.all()
+        tmpl_map = {t.pk: t for t in qs}
+        cache.set(TEMPLATE_CACHE_KEY, tmpl_map, timeout=TEMPLATE_TTL)
+    return tmpl_map
 
 def _evaluate_condition(value: Any, condition: str) -> bool:
     """
@@ -43,7 +55,6 @@ def generate_recommendations(
     prediction: Any,
     shap_values: dict,
     lime_summary: list[dict],
-    rules_csv: str = 'recommendation_rules.csv',
     max_recs: int = 5
 ) -> list[Recommendation]:
     """
@@ -52,27 +63,13 @@ def generate_recommendations(
     3) For each match, instantiates a Recommendation based on the template
     4) Stops after max_recs recommendations
     """
-    app_dir = os.path.dirname(__file__)
-    csv_path = os.path.join(app_dir, rules_csv)
-    if not os.path.exists(csv_path):
-        raise ImproperlyConfigured(f"Rules file not found: {csv_path}")
-
-    rules = []
-    with open(csv_path, newline='') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            rules.append({
-                'driver': row['driver'].strip(),
-                'condition': row['condition'].strip(),
-                'template_pk': int(row['template_pk']),
-                'priority': int(row['priority']),
-            })
-    rules.sort(key=lambda r: r['priority'])
+    rules = load_recommendation_rules()
 
     created = []
+    tmpl_map = _get_template_map()
     for r in rules:
-        driver = r['driver']
-        cond = r['condition']
+        driver = r.driver
+        cond = r.condition
 
         # SHAP‐based driver
         if driver.startswith('shap[') and driver.endswith(']'):
@@ -114,7 +111,9 @@ def generate_recommendations(
         if not passed:
             continue
 
-        template = RecommendationTemplate.objects.get(pk=r['template_pk'])
+        template = tmpl_map.get(r.template_pk)
+        if template is None:
+            continue
         
         context = {
             'bmi': health_input.bmi,

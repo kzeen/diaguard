@@ -5,6 +5,11 @@ import pandas as pd
 import shap
 from lime.lime_tabular import LimeTabularExplainer
 from django.conf import settings
+import functools
+import warnings
+
+np.seterr(divide='ignore', over='ignore', invalid='ignore')
+warnings.filterwarnings("ignore", category=RuntimeWarning, module="sklearn")
 
 BASE_DIR = settings.BASE_DIR
 MODEL_PATH = os.path.join(BASE_DIR, "ml", "models", "diabetes_rf_recall.pkl")
@@ -47,32 +52,52 @@ _lime_explainer = LimeTabularExplainer(
     discretize_continuous=True
 )
 
-def _build_features(input_data: dict) -> np.ndarray:
+@functools.lru_cache(maxsize=256)
+def _build_features_tuple(
+    gender:str, age:float, hypertension: bool, heart_disease: bool,
+    bmi:float, HbA1c_level: float, blood_glucose_level: float,
+    smoking_history: str
+) -> tuple:
     """
-    Build and return a scaled feature array for the model given raw input_data.
+    Build an immutable tuple of raw feature values in FEATURE_ORDER.
+    LRU-cached to avoid repeating this dict/array assembly
     """
     features = {name: 0 for name in FEATURE_ORDER}
 
-    features['age'] = input_data['age']
-    features['hypertension'] = int(input_data['hypertension'])
-    features['heart_disease'] = int(input_data['heart_disease'])
-    features['bmi'] = input_data['bmi']
-    features['HbA1c_level'] = input_data['HbA1c_level']
-    features['blood_glucose_level'] = input_data['blood_glucose_level']
+    features['age'] = age
+    features['hypertension'] = int(hypertension)
+    features['heart_disease'] = int(heart_disease)
+    features['bmi'] = bmi
+    features['HbA1c_level'] = HbA1c_level
+    features['blood_glucose_level'] = blood_glucose_level
 
-    gender = input_data.get('gender')
     if gender == 'Male':
         features['gender_Male'] = 1
     elif gender == 'Other':
         features['gender_Other'] = 1
 
-    sh = input_data.get('smoking_history')
-    col = f"smoking_history_{sh}"
+    col = f"smoking_history_{smoking_history}"
     if col in features:
         features[col] = 1
 
-    arr = np.array([features[name] for name in FEATURE_ORDER]).reshape(1, -1)
-    return _scaler.transform(pd.DataFrame(arr, columns=FEATURE_ORDER))
+    return tuple(features[name] for name in FEATURE_ORDER)
+
+def _build_features(input_data: dict) -> np.ndarray:
+    """
+    Scale and return the feature array for a single input_data dict
+    """
+    tup = _build_features_tuple(
+        input_data.get('gender'),
+        input_data['age'],
+        input_data['hypertension'],
+        input_data['heart_disease'],
+        input_data['bmi'],
+        input_data['HbA1c_level'],
+        input_data['blood_glucose_level'],
+        input_data.get('smoking_history')
+    )
+
+    return _scaler.transform(pd.DataFrame([list(tup)], columns=FEATURE_ORDER))
 
 def predict_risk(input_data: dict) -> dict:
     """

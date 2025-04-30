@@ -124,6 +124,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [config('CORS_ALLOWED_ORIGINS')]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
 REST_FRAMEWORK = {
     # Require authentication by default
     'DEFAULT_AUTHENTICATION_CLASSES': [

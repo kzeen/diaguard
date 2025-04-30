@@ -1,5 +1,7 @@
 import csv
 import os
+import pandas as pd
+from django.core.cache import cache
 from .models import RecommendationTemplate
 from typing import NamedTuple
 from django.conf import settings
@@ -14,11 +16,18 @@ class RecommendationRule(NamedTuple):
     priority: int
     notes: str
 
+CACHE_KEY = 'recommendation_rules_list'
+CACHE_TTL = 24 * 3600
+
 def load_recommendation_rules(filename: str = 'recommendation_rules.csv') -> list[RecommendationRule]:
     """
     Reads the rules CSV and returns a list of RecommendationRule,
     sorted by ascending priority.
     """
+    rules = cache.get(CACHE_KEY)
+    if rules is not None:
+        return rules
+
     app_dir = os.path.dirname(__file__)
     csv_path = os.path.join(app_dir, filename)
     if not os.path.exists(csv_path):
@@ -42,6 +51,7 @@ def load_recommendation_rules(filename: str = 'recommendation_rules.csv') -> lis
                 raise ImproperlyConfigured(f"Invalid rule row: {row} - {e}")
             rules.append(rule)
     rules.sort(key=lambda r: r.priority)
+    cache.set(CACHE_KEY, rules, timeout=CACHE_TTL)
     return rules
 
 def validate_rules(rules: list[RecommendationRule]):
