@@ -1,14 +1,8 @@
-from rest_framework import status, generics, permissions, authentication
+from rest_framework import generics, permissions, authentication, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-
-from .models import HealthInput, Prediction, Explanation, Recommendation
-from .serializers import (
-    PredictionRequestSerializer,
-    PredictionSerializer,
-    ExplanationSerializer,
-    RecommendationSerializer,
-)
+from .models import Prediction
+from .serializers import PredictionRequestSerializer, PredictionSerializer, ExplanationSerializer, RecommendationSerializer
 
 # POST /api/predictions/  (Create health input + prediction + ...)
 class PredictView(generics.CreateAPIView):
@@ -63,3 +57,19 @@ class RecommendationListView(generics.ListAPIView):
         if prediction.health_input.user != self.request.user:
             raise permissions.PermissionDenied('Not allowed.')
         return prediction.recommendations.all()
+    
+    def list(self, request, *args, **kwargs):
+        """
+        Return recommendations grouped by category, in default model ordering.
+        {
+          "diet": [ { ... }, { ... } ],
+          "exercise": [ { ... } ],
+          "habits": [ { ... } ]
+        }
+        """
+        recs = self.get_queryset()
+        serializer = self.get_serializer(recs, many=True)
+        grouped = {}
+        for rec in serializer.data:
+            grouped.setdefault(rec['category'], []).append(rec)
+        return Response(grouped, status=status.HTTP_200_OK)
