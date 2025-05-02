@@ -1,21 +1,16 @@
-import { useEffect, useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage';
 import './App.css'
-import {ping} from "@/services/api";
 
 function App() {
-  const [message, setMessage] = useState('Loading...');
-
-  useEffect(() => {
-    ping()
-    .then((res) => setMessage(res.data.message))
-    .catch(() => setMessage("Failed to connect to backend"))
-  }, []);
-
   return (
-    <div style={{ textAlign: "center", marginTop: "4rem"}}>
-      <h1>DiaGuard (Vite + React)</h1>
-      <p>Backend says: <strong>{message}</strong></p>
-    </div>
+    <Routes>
+      <Route path='/' element={<HomePage/>} />
+      <Route path='/login' element={<LoginPage/>} />
+      <Route path='/dashboard' element={<DashboardPage/>} />
+    </Routes>
   )
 }
 
