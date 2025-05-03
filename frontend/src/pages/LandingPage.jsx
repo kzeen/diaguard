@@ -4,6 +4,9 @@ import f1 from '../assets/landing/feature1.jpg';
 import f2 from '../assets/landing/feature2.jpg';
 import { NavLink } from 'react-router-dom';
 import FeatureCard from '../components/FeatureCard';
+import StepCard from '../components/StepCard';
+import TestimonialCard from '../components/TestimonialCard';
+import FAQItem from '../components/FAQItem';
 
 export default function LandingPage() {
   return (
@@ -71,6 +74,87 @@ export default function LandingPage() {
               data-aos="fade-left"
             />
           </div>
+        </div>
+      </section>
+
+      {/* ---------- HOW IT WORKS SECTION ---------- */}
+      <section className="bg-white" data-aos="fade-up">
+        <div className="max-w-6xl mx-auto px-6 py-24">
+          <h2 className="text-3xl font-bold text-center mb-12">How DiaGuard Works</h2>
+
+          <div className="grid lg:grid-cols-3 gap-10">
+            <StepCard
+              num="1"
+              title="Enter Your Health Data"
+              desc="Fill out a quick form with age, BMI, glucose & lifestyle info."
+              data-aos="fade-right"
+            />
+            <StepCard
+              num="2"
+              title="Get an Instant Risk Score"
+              desc="Our ML model analyses your inputs and predicts diabetes risk."
+              data-aos="fade-up"
+            />
+            <StepCard
+              num="3"
+              title="See Why & What to Do"
+              desc="SHAP & LIME explain the drivers, while our engine suggests actions."
+              data-aos="fade-left"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- TESTIMONIALS SECTION ---------- */}
+      <section className="bg-light" data-aos="fade-up">
+        <div className="max-w-6xl mx-auto px-6 py-24">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            People reversing risk with DiaGuard
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <TestimonialCard
+              quote="My risk dropped from high to low in just 8 weeks!"
+              name="Brandon R."
+              result="-35% risk score"
+              img="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=200&h=200&q=80"
+              data-aos="zoom-in"
+            />
+            <TestimonialCard
+              quote="Finally understand what my numbers mean—so empowering."
+              name="Allison W."
+              result="A1C down 1.2%"
+              img="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&h=200&q=80"
+              data-aos="zoom-in"
+            />
+            <TestimonialCard
+              quote="The explanations made it crystal‑clear what to change."
+              name="Rodney P."
+              result="Lost 8 lbs"
+              img="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&h=200&q=80"
+              data-aos="zoom-in"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- FAQ SECTION ---------- */}
+      <section className="bg-white" data-aos="fade-up">
+        <div className="max-w-4xl mx-auto px-6 py-24">
+          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+
+          <FAQItem
+            q="Is DiaGuard clinically validated?"
+            a="Our model is trained on peer‑reviewed datasets and benchmarks comparable to published studies on diabetes risk prediction." 
+          />
+          <FAQItem
+            q="How much does it cost?"
+            a="DiaGuard is free during beta. Premium features will launch later at less than $5/month."
+          />
+          <FAQItem
+            q="Will my data stay private?"
+            a="Absolutely. All information is encrypted and never shared without your consent."
+          />
         </div>
       </section>
 
