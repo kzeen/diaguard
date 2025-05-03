@@ -9,7 +9,7 @@ export default function LandingPage() {
   return (
     <>
       {/* ---------- HERO SECTION ---------- */}
-      <section className="bg-white">
+      <section className="bg-white" data-aos="fade-down">
         <div className="max-w-6xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-12 items-center">
           {/* Text */}
           <div>
@@ -42,8 +42,9 @@ export default function LandingPage() {
           <div className="relative">
             <img
               src={heroImg}
-              alt="DiaGuard illustration"
+              alt="Doctor illustration"
               className="rounded-lg shadow-lg"
+              data-aos="zoom-in"
             />
           </div>
         </div>
@@ -61,18 +62,20 @@ export default function LandingPage() {
               imgSrc={f1}
               title="Instant, Accurate Predictions"
               desc="Robust machine‑learning models trained on curated datasets give you a science‑backed risk score in seconds."
+              data-aos="fade-right"
             />
             <FeatureCard
               imgSrc={f2}
               title="Transparent Explanations"
               desc="Powered by SHAP & LIME, DiaGuard shows which factors drive your score so you know exactly what to improve."
+              data-aos="fade-left"
             />
           </div>
         </div>
       </section>
 
       {/* ---------- CTA SECTION ---------- */}
-      <section className="bg-primary text-white">
+      <section className="bg-primary text-white" data-aos="fade-up">
         <div className="max-w-6xl mx-auto px-6 py-20 text-center">
           <h2 className="text-3xl font-bold mb-6">
             Ready to take control of your health?

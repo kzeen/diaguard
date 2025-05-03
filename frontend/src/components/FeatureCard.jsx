@@ -1,7 +1,7 @@
 // Generic card for the Features section
-export default function FeatureCard({ imgSrc, title, desc }) {
+export default function FeatureCard({ imgSrc, title, desc, ...rest }) {
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div {...rest} className="bg-white rounded-lg shadow p-6">
       <img
         src={imgSrc}
         alt={title}
