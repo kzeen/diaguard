@@ -10,46 +10,51 @@ export default function MainLayout() {
     nav('/');
   };
 
+  const linkCls = ({ isActive }) =>
+    `relative px-2 py-1 text-sm font-medium transition-colors
+     ${isActive ? 'text-primary after:w-full' : 'text-gray-700 hover:text-primary'}
+     after:absolute after:-bottom-0.5 after:left-0 after:h-0.5
+     after:bg-primary after:rounded-full after:transition-all
+     ${isActive ? '' : 'after:w-0 hover:after:w-full'}
+    `;
+
   return (
     <div className="min-h-screen flex flex-col bg-light font-sans text-dark">
-      <header className="bg-white shadow p-4">
-        <nav className="max-w-6xl mx-auto flex justify-between items-center">
-          <NavLink to="/" className="text-xl font-bold text-primary">
+      {/* ---------- header ---------- */}
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-8 flex justify-between items-center h-16">
+          <NavLink to="/" className="text-2xl font-extrabold text-primary">
             DiaGuard
           </NavLink>
 
-          <div className="space-x-4">
-            <NavLink to="/dashboard" className="text-sm font-medium hover:text-primary">
-              Dashboard
-            </NavLink>
-            <NavLink to="/predict" className="text-sm font-medium hover:text-primary">
-              Predict
-            </NavLink>
-            <NavLink to="/history" className="text-sm font-medium hover:text-primary">
-              History
-            </NavLink>
-            <NavLink to="/profile" className="text-sm font-medium hover:text-primary">
-              Profile
-            </NavLink>
-            <NavLink to="/help" className="text-sm font-medium hover:text-primary">
-              Help
-            </NavLink>
+          <nav className="flex items-center gap-6">
+            <NavLink to="/dashboard" className={linkCls}>Dashboard</NavLink>
+            <NavLink to="/predict" className={linkCls}>Predict</NavLink>
+            <NavLink to="/history" className={linkCls}>History</NavLink>
+            <NavLink to="/profile" className={linkCls}>Profile</NavLink>
+            <NavLink to="/help" className={linkCls}>Help</NavLink>
+
             <button
               onClick={handleLogout}
-              className="ml-4 text-sm font-medium bg-primary text-white px-3 py-1.5 rounded hover:bg-primary/90 transition-colors"
+              className="ml-4 px-4 py-2 rounded-md bg-primary text-white text-sm font-semibold
+                         hover:bg-primary/90 transition-colors shadow"
             >
-              Log out
+              Log&nbsp;out
             </button>
-          </div>
-        </nav>
+          </nav>
+        </div>
       </header>
 
-      <main className="flex-1 max-w-6xl mx-auto p-6">
+      {/* ---------- main ---------- */}
+      <main className="flex-1 max-w-7xl mx-auto px-8 py-10">
         <Outlet />
       </main>
 
-      <footer className="bg-white border-t mt-12 p-4 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} DiaGuard. All rights reserved.
+      {/* ---------- footer ---------- */}
+      <footer className="bg-white border-t">
+        <div className="max-w-7xl mx-auto px-8 py-6 text-center text-sm text-gray-500">
+          &copy; {new Date().getFullYear()} DiaGuard. All rights reserved.
+        </div>
       </footer>
     </div>
   );
