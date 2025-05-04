@@ -15,3 +15,7 @@ export const fetchHealthTip = () =>
     Promise.resolve({
         tip: "Drink a glass of water before meals; proper hydration helps regulate blood glucose.",
     });
+
+// Create prediction
+export const createPrediction = (payload) =>
+    API.post("/predictions/", payload).then((r) => r.data.prediction);

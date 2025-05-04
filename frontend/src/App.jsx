@@ -7,6 +7,7 @@ import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import GuestRoute from './components/GuestRoute';
+import PredictPage from './pages/PredictPage';
 import './App.css'
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         </ProtectedRoute>
       }>
         <Route path='/dashboard' element={<DashboardPage/>} />
+        <Route path='/predict' element={<PredictPage/>} />
       </Route>
     </Routes>
   )
