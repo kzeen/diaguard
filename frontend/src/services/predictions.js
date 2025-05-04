@@ -19,3 +19,17 @@ export const fetchHealthTip = () =>
 // Create prediction
 export const createPrediction = (payload) =>
     API.post("/predictions/", payload).then((r) => r.data.prediction);
+
+export const fetchPredictionDetail = (id) =>
+    API.get(`/predictions/${id}/`).then((r) => r.data);
+
+export const fetchPredictionExplanation = (id) =>
+    API.get(`/predictions/${id}/explanation/`).then((r) => r.data);
+
+export const fetchPredictionRecs = (id) =>
+    API.get(`/predictions/${id}/recommendations`).then((r) => r.data);
+
+export const sendRecFeedback = (predictionId, recId, helpful) =>
+    API.post(`/predictions/${predictionId}/recommendations/${recId}/feedback`, {
+        helpful,
+    });

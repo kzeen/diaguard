@@ -8,22 +8,25 @@ import DashboardPage from './pages/DashboardPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import GuestRoute from './components/GuestRoute';
 import PredictPage from './pages/PredictPage';
+import PredictionResultPage from './pages/PredictionResultPage';
+import ExplanationPage from './pages/ExplanationPage';
+import RecommendationsPage from './pages/RecommendationsPage';
 import './App.css'
 
 function App() {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route element={<PublicLayout/>}>
-        <Route path='/' element={<LandingPage/>} />
+      <Route element={<PublicLayout />}>
+        <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={
           <GuestRoute>
-            <LoginPage/>
+            <LoginPage />
           </GuestRoute>
         } />
         <Route path='/signup' element={
           <GuestRoute>
-            <SignupPage/>
+            <SignupPage />
           </GuestRoute>
         } />
       </Route>
@@ -31,11 +34,14 @@ function App() {
       {/* Authenticated Routes */}
       <Route element={
         <ProtectedRoute>
-          <MainLayout/>
+          <MainLayout />
         </ProtectedRoute>
       }>
-        <Route path='/dashboard' element={<DashboardPage/>} />
-        <Route path='/predict' element={<PredictPage/>} />
+        <Route path='/dashboard' element={<DashboardPage />} />
+        <Route path='/predict' element={<PredictPage />} />
+        <Route path='/predict/:id/result' element={<PredictionResultPage />} />
+        <Route path='/predict/:id/explanation' element={<ExplanationPage />} />
+        <Route path='/predict/:id/recommendations' element={<RecommendationsPage />} />
       </Route>
     </Routes>
   )
