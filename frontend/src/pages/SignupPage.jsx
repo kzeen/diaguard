@@ -15,7 +15,8 @@ export default function SignupPage() {
       setErr('');
       setLoading(true);
       await signup(username, email, password);
-      nav('/dashboard');
+      nav('/dashboard', { replace: true});
+      window.scrollTo(0, 0);
     } catch (e) {
       const code = e.response?.status;
       setErr(`${code ? code + ' - ' : ''}${formatError(e.response?.data || e.message)}`);

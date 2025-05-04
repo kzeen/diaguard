@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from .serializers import UserRegistrationSerializer, UserLoginSerializer
+from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -61,3 +61,24 @@ def logout(request):
         {'detail': 'Successfully logged out.'},
         status=status.HTTP_200_OK
     )
+
+@api_view(['GET', 'PATCH'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def me(request):
+    """
+    GET -> return user's current profile
+    PATCH -> update profile (only non-read-only)
+    """
+    user = request.user
+
+    if request.method == 'GET':
+        serializer = UserProfileSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    # PATCH
+    serializer = UserProfileSerializer(user, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

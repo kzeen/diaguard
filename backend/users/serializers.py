@@ -72,3 +72,20 @@ class UserLoginSerializer(serializers.Serializer):
         style={'input_type': 'password'},
         help_text="Enter your password."
     )
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """
+    Used for GET/PATCH /users/me/.
+    Username, email, and role are read-only.
+    """
+    class Meta:
+        model = User
+        fields = (
+            'id', 'username', 'email',
+            'first_name', 'last_name',
+            'date_of_birth', 'gender',
+            'role', 'address', 'city',
+            'state', 'country', 'postal_code',
+            'created_at',
+        )
+        read_only_fields = ('id', 'username', 'email', 'role', 'created_at')

@@ -15,7 +15,8 @@ export default function LoginPage() {
       setErr('');
       setLoading(true);
       await login(username, password);
-      nav('/dashboard');
+      nav('/dashboard', { replace: true});
+      window.scrollTo(0, 0);
     } catch (e) {
       setErr(formatError(e.response?.data));
     } finally {
