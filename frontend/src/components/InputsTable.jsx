@@ -13,7 +13,7 @@ export default function InputsTable() {
           .reverse()
           .map((p) => ({
             id: p.id,
-            ...p.health_input,          
+            ...p.health_input,
           }))
       )
     );

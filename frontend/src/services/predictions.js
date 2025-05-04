@@ -30,6 +30,9 @@ export const fetchPredictionRecs = (id) =>
     API.get(`/predictions/${id}/recommendations`).then((r) => r.data);
 
 export const sendRecFeedback = (predictionId, recId, helpful) =>
-    API.post(`/predictions/${predictionId}/recommendations/${recId}/feedback`, {
-        helpful,
-    });
+    API.post(
+        `/predictions/${predictionId}/recommendations/${recId}/feedback/`,
+        {
+            helpful,
+        }
+    );
