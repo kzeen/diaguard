@@ -30,3 +30,5 @@ export const signup = (username, email, password) =>
 export const logout = () => API.post("/users/logout/");
 
 export const getMe = () => API.get("/users/me/");
+
+export default API;
