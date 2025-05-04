@@ -2,6 +2,9 @@
 import heroImg from '../assets/landing/hero.jpg';
 import f1 from '../assets/landing/feature1.jpg';
 import f2 from '../assets/landing/feature2.jpg';
+import h1 from '../assets/landing/headshot1.jpeg';
+import h2 from '../assets/landing/headshot2.jpeg';
+import h3 from '../assets/landing/headshot3.jpeg';
 import { NavLink } from 'react-router-dom';
 import FeatureCard from '../components/FeatureCard';
 import StepCard from '../components/StepCard';
@@ -70,7 +73,7 @@ export default function LandingPage() {
             <FeatureCard
               imgSrc={f2}
               title="Transparent Explanations"
-              desc="Powered by SHAP & LIME, DiaGuard shows which factors drive your score so you know exactly what to improve."
+              desc="Powered by SHAP & LIME technologies, DiaGuard shows which factors drive your score so you know exactly what to improve."
               data-aos="fade-left"
             />
           </div>
@@ -117,21 +120,21 @@ export default function LandingPage() {
               quote="My risk dropped from high to low in just 8 weeks!"
               name="Brandon R."
               result="-35% risk score"
-              img="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=200&h=200&q=80"
+              img={h1}
               data-aos="zoom-in"
             />
             <TestimonialCard
               quote="Finally understand what my numbers mean—so empowering."
               name="Allison W."
-              result="A1C down 1.2%"
-              img="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&h=200&q=80"
+              result="HbA1C down 1.2%"
+              img={h2}
               data-aos="zoom-in"
             />
             <TestimonialCard
               quote="The explanations made it crystal‑clear what to change."
               name="Rodney P."
               result="Lost 8 lbs"
-              img="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&h=200&q=80"
+              img={h3}
               data-aos="zoom-in"
             />
           </div>
