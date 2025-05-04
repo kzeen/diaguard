@@ -12,6 +12,7 @@
   "dependencies": {
     "aos": "^2.3.4",
     "axios": "^1.8.4",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.507.0",
     "plotly.js": "^3.0.1",
     "react": "^19.0.0",

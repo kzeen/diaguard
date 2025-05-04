@@ -36,3 +36,6 @@ export const sendRecFeedback = (predictionId, recId, helpful) =>
             helpful,
         }
     );
+
+export const fetchPredictionsList = (params = {}) =>
+    API.get("/predictions/all/", { params }).then((r) => r.data);

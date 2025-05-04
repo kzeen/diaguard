@@ -68,7 +68,7 @@ class PredictionDetailView(generics.RetrieveAPIView):
             raise permissions.PermissionDenied('Not allowed.')
         return obj
 
-# GET /api/predictions/  or  /api/predictions/latest/
+# GET /api/predictions/all/  or  /api/predictions/latest/
 class PredictionListView(generics.ListAPIView):
     """
     Returns the authenticated user's own predictions, newest first.
