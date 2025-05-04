@@ -68,6 +68,28 @@ class PredictionDetailView(generics.RetrieveAPIView):
             raise permissions.PermissionDenied('Not allowed.')
         return obj
 
+# GET /api/predictions/  or  /api/predictions/latest/
+class PredictionListView(generics.ListAPIView):
+    """
+    Returns the authenticated user's own predictions, newest first.
+    Accepts optional `?latest=1` query param to return only the most recent prediction.
+    """
+    serializer_class = PredictionSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        qs = (
+            Prediction.objects
+            .filter(health_input__user=self.request.user)
+            .select_related('explanation', 'health_input')
+            .prefetch_related('recommendations')
+            .order_by('-created_at')
+        )
+        if self.kwargs.get('latest'):
+            return qs[:1]
+        return qs
+
 # GET /api/predictions/<pk>/explanation/
 class ExplanationDetailView(generics.RetrieveAPIView):
     serializer_class = ExplanationSerializer
