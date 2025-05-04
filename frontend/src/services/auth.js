@@ -31,4 +31,6 @@ export const logout = () => API.post("/users/logout/");
 
 export const getMe = () => API.get("/users/me/");
 
+export const updateMe = (payload) => API.patch("/users/me/", payload);
+
 export default API;
