@@ -5,6 +5,12 @@ import Spinner from '../components/Spinner';
 import LastPredictionCard from '../components/LastPredictionCard';
 import HealthTip from '../components/HealthTip';
 import QuickActions from '../components/QuickActions';
+import RiskTrend from '../components/RiskTrend';
+import InputsTable from '../components/InputsTable';
+import UnreadRecsBanner from '../components/UnreadRecsBanner';
+import StreakCounter from '../components/StreakCounter';
+import Fab from '../components/Fab';
+import LatestRecs from '../components/LatestRecs';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -32,19 +38,27 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-10">
-      {/* Greeting */}
-      <h1 className="text-2xl font-bold">
-        Welcome back, {user.first_name || user.username}!
-      </h1>
+        <UnreadRecsBanner/>
 
-      {/* Two‑column grid */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <LastPredictionCard pred={latest} />
-        <HealthTip tip={tip} />
-      </div>
+        <h1 className="text-2xl font-bold">
+            Welcome back, {user.first_name || user.username}!
+        </h1>
 
-      {/* Quick links */}
-      <QuickActions />
+        <div className="grid lg:grid-cols-2 gap-6">
+            <LastPredictionCard pred={latest} />
+            <HealthTip tip={tip} />
+        </div>
+
+        <RiskTrend/>
+
+        <InputsTable/>
+        <StreakCounter/>
+
+        <LatestRecs/>
+
+        <Fab/>
+
+        <QuickActions />
     </div>
   );
 }

@@ -60,6 +60,7 @@ class ExplanationSerializer(serializers.ModelSerializer):
 class PredictionSerializer(serializers.ModelSerializer):
     explanation = ExplanationSerializer(read_only=True)
     recommendations = RecommendationSerializer(many=True, read_only=True)
+    health_input = serializers.SerializerMethodField()
 
     class Meta:
         model = Prediction
@@ -70,7 +71,18 @@ class PredictionSerializer(serializers.ModelSerializer):
             'created_at',
             'explanation',
             'recommendations',
+            'health_input',
         )
+    
+    def get_health_input(self, obj):
+        hi = obj.health_input
+        return {
+            "age": hi.age,
+            "bmi": float(hi.bmi),
+            "hba1c": float(hi.hba1c),
+            "blood_glucose": float(hi.blood_glucose),
+            "created_at": hi.created_at,
+        }
 
 # Combined Serializer for POST /api/predict
 class PredictionRequestSerializer(HealthInputSerializer):
