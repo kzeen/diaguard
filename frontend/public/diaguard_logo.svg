@@ -1,0 +1,7 @@
+
+<svg width="32" height="32" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="128,20 210,70 210,170 128,230 46,170 46,70" fill="#2563eb"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="72" fill="#ffffff">DG</text>
+</svg>
