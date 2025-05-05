@@ -29,8 +29,9 @@ export default function RecommendationsPage() {
             try {
                 const data = await fetchPredictionRecs(id);
                 setGroups(data);
-            } catch {
+            } catch (error) {
                 setError('Unable to load recommendations.');
+                console.error(error)
             }
         }
         load();

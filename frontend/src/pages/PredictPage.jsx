@@ -20,7 +20,7 @@ const smokeOpts = [
 function calcAge(dob) {
   if (!dob) return '';
   const diff = Date.now() - new Date(dob).getTime();
-  return Math.floor(diff / 31557600000); // ms in tropical year
+  return Math.floor(diff / 31557600000);
 }
 
 export default function PredictPage() {
@@ -139,7 +139,7 @@ export default function PredictPage() {
         </div>
 
         <div className="sm:col-span-2">
-          <   FormSelect
+          <FormSelect
             label="Smoking history"
             name="smoking_history"
             value={values.smoking_history}

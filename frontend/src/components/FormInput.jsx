@@ -29,9 +29,8 @@ export function FormInput({
           step={step}
           onChange={onChange}
           disabled={disabled}
-          className={`w-full border px-3 py-2 rounded ${
-            unit ? 'pr-16' : ''
-          } ${disabled && 'bg-gray-100'}`}
+          className={`w-full border px-3 py-2 rounded ${unit ? 'pr-16' : ''
+            } ${disabled && 'bg-gray-100'}`}
         />
         {unit && (
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">
@@ -50,7 +49,7 @@ export function FormSelect({
   name,
   value,
   onChange,
-  options,
+  options = ["N/A"],
   error,
   disabled = false,
 }) {
@@ -62,9 +61,8 @@ export function FormSelect({
         value={value}
         onChange={onChange}
         disabled={disabled}
-        className={`w-full border px-3 py-2 rounded ${
-          disabled && 'bg-gray-100'
-        }`}
+        className={`w-full border px-3 py-2 rounded ${disabled && 'bg-gray-100'
+          }`}
       >
         <option value="">Select…</option>
         {options.map((o) => (
