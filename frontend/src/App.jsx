@@ -13,6 +13,7 @@ import ExplanationPage from './pages/ExplanationPage';
 import RecommendationsPage from './pages/RecommendationsPage';
 import HistoryPage from './pages/HistoryPage';
 import ProfilePage from './pages/ProfilePage';
+import HelpPage from './pages/HelpPage';
 import './App.css'
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
         <Route path='/predict/:id/recommendations' element={<RecommendationsPage />} />
         <Route path='/history' element={<HistoryPage />} />
         <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/help' element={<HelpPage />} />
       </Route>
     </Routes>
   )
