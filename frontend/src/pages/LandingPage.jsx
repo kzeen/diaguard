@@ -118,14 +118,14 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <TestimonialCard
               quote="My risk dropped from high to low in just 8 weeks!"
-              name="Brandon R."
+              name="Allison W."
               result="-35% risk score"
               img={h1}
               data-aos="zoom-in"
             />
             <TestimonialCard
               quote="Finally understand what my numbers mean—so empowering."
-              name="Allison W."
+              name="Brandon R."
               result="HbA1C down 1.2%"
               img={h2}
               data-aos="zoom-in"
@@ -148,7 +148,7 @@ export default function LandingPage() {
 
           <FAQItem
             q="Is DiaGuard clinically validated?"
-            a="Our model is trained on peer‑reviewed datasets and benchmarks comparable to published studies on diabetes risk prediction." 
+            a="Our model is trained on peer‑reviewed datasets and benchmarks comparable to published studies on diabetes risk prediction."
           />
           <FAQItem
             q="How much does it cost?"

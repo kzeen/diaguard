@@ -65,7 +65,7 @@ export default function LastPredictionCard({ pred }) {
 
       {/* CTA */}
       <NavLink
-        to={`/predict/${pred.id}/`}
+        to={`/predict/${pred.id}/result`}
         className="mt-6 self-center text-primary text-sm underline"
       >
         View details →
