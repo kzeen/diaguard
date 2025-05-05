@@ -12,11 +12,14 @@ import {
     CartesianGrid,
 } from 'recharts';
 import { format } from 'date-fns';
+import usePageTitle from '../hooks/usePageTitle';
 
 const riskColor = { low: '#22c55e', medium: '#fbbf24', high: '#ef4444' };
 const riskIndex = { low: 0, medium: 1, high: 2, '0': 0, '1': 1, '2': 2 };
 
 export default function HistoryPage() {
+    usePageTitle('History');
+
     const [raw, setRaw] = useState(null);
     const [filter, setFilter] = useState({ level: 'all', from: '', to: '' });
 

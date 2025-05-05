@@ -8,8 +8,11 @@ import FeatureImportanceChart from '../components/FeatureImportanceChart';
 import RiskLegend from '../components/RiskLegend';
 import BarColorLegend from '../components/BarColorLegend';
 import MiniRecommendations from '../components/MiniRecommendations';
+import usePageTitle from '../hooks/usePageTitle';
 
 export default function PredictionResultPage() {
+  usePageTitle('Prediction Results');
+
   const { id } = useParams();
   const nav = useNavigate();
   const [pred, setPred] = useState(null);

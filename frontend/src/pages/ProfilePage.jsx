@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { getMe, updateMe } from '../services/auth';
 import Spinner from '../components/Spinner';
+import usePageTitle from '../hooks/usePageTitle';
 
 const READ_ONLY = ['username', 'email', 'role'];
 
 export default function ProfilePage() {
+    usePageTitle('Profile');
+
     const [form, setForm] = useState(null);
     const [busy, setBusy] = useState(false);
     const [msg, setMsg] = useState('');

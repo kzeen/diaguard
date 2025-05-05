@@ -3,8 +3,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
 import { useAuth } from '../context/AuthContext';
 import formatError from '../utils/formatError';
+import usePageTitle from '../hooks/usePageTitle';
 
 export default function SignupPage() {
+  usePageTitle('Sign up');
+
   const { signup } = useAuth();
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -15,7 +18,7 @@ export default function SignupPage() {
       setErr('');
       setLoading(true);
       await signup(username, email, password);
-      nav('/dashboard', { replace: true});
+      nav('/dashboard', { replace: true });
       window.scrollTo(0, 0);
     } catch (e) {
       const code = e.response?.status;

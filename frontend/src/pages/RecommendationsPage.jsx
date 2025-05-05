@@ -6,6 +6,8 @@ import {
 } from '../services/predictions';
 import Spinner from '../components/Spinner';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
+import toast from 'react-hot-toast';
+import usePageTitle from '../hooks/usePageTitle';
 
 const badgeColour = {
     diet: 'bg-emerald-100 text-emerald-700',
@@ -14,6 +16,8 @@ const badgeColour = {
 };
 
 export default function RecommendationsPage() {
+    usePageTitle('Recommendations');
+
     const { id } = useParams();
     const [groups, setGroups] = useState(null);
     const [busy, setBusy] = useState(false);
@@ -37,7 +41,9 @@ export default function RecommendationsPage() {
         if (busy) return;
         setBusy(true);
         try {
-            await sendRecFeedback(id, recId, helpful);
+            await sendRecFeedback(id, recId, helpful)
+                .then(() => toast.success('Feedback received!'))
+                .catch(() => toast.error('Could not send feedback.'));
             const data = await fetchPredictionRecs(id);
             setGroups(data);
         } finally {

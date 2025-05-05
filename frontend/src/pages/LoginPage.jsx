@@ -3,8 +3,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
 import { useAuth } from '../context/AuthContext';
 import formatError from '../utils/formatError';
+import usePageTitle from '../hooks/usePageTitle';
 
 export default function LoginPage() {
+  usePageTitle('Login');
+
   const { login } = useAuth();
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -15,7 +18,7 @@ export default function LoginPage() {
       setErr('');
       setLoading(true);
       await login(username, password);
-      nav('/dashboard', { replace: true});
+      nav('/dashboard', { replace: true });
       window.scrollTo(0, 0);
     } catch (e) {
       setErr(formatError(e.response?.data));

@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { CheckCircleIcon } from 'lucide-react';
+import usePageTitle from '../hooks/usePageTitle';
 
 export default function HelpPage() {
+    usePageTitle('Help');
+
     const [sent, setSent] = useState(false);
     const [form, setForm] = useState({ subject: '', message: '' });
 

@@ -5,6 +5,7 @@ import { FormInput, FormSelect } from '../components/FormInput';
 import Spinner from '../components/Spinner';
 import ButtonSpinner from '../components/ButtonSpinner';
 import { useAuth } from '../context/AuthContext';
+import usePageTitle from '../hooks/usePageTitle';
 
 const genderOpts = ['Male', 'Female', 'Other'];
 const smokeOpts = [
@@ -23,6 +24,8 @@ function calcAge(dob) {
 }
 
 export default function PredictPage() {
+  usePageTitle('New Prediction');
+
   const { user } = useAuth();
   const nav = useNavigate();
 
@@ -136,17 +139,17 @@ export default function PredictPage() {
         </div>
 
         <div className="sm:col-span-2">
-        <   FormSelect
-                label="Smoking history"
-                name="smoking_history"
-                value={values.smoking_history}
-                onChange={onChange}
-                options={smokeOpts}
-                error={errors.smoking_history}/>
+          <   FormSelect
+            label="Smoking history"
+            name="smoking_history"
+            value={values.smoking_history}
+            onChange={onChange}
+            options={smokeOpts}
+            error={errors.smoking_history} />
         </div>
 
         <div className="sm:col-span-1">
-            <FormInput
+          <FormInput
             label="BMI"
             name="bmi"
             type="number"
@@ -155,19 +158,19 @@ export default function PredictPage() {
             value={values.bmi}
             onChange={onChange}
             error={errors.bmi}
-            className="sm:col-span-1"/>
+            className="sm:col-span-1" />
         </div>
-        
+
         <div className="sm:col-span-1">
-            <FormInput
-                label="HbA1c (%)"
-                name="hba1c"
-                type="number"
-                step="0.1"
-                unit="%"
-                value={values.hba1c}
-                onChange={onChange}
-                error={errors.hba1c} />
+          <FormInput
+            label="HbA1c (%)"
+            name="hba1c"
+            type="number"
+            step="0.1"
+            unit="%"
+            value={values.hba1c}
+            onChange={onChange}
+            error={errors.hba1c} />
         </div>
 
         <div className="sm:col-span-2">

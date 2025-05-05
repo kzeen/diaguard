@@ -10,8 +10,10 @@ import FeatureCard from '../components/FeatureCard';
 import StepCard from '../components/StepCard';
 import TestimonialCard from '../components/TestimonialCard';
 import FAQItem from '../components/FAQItem';
+import usePageTitle from '../hooks/usePageTitle';
 
 export default function LandingPage() {
+  usePageTitle();
   return (
     <>
       {/* ---------- HERO SECTION ---------- */}

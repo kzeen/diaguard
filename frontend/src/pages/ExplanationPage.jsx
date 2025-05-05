@@ -3,8 +3,11 @@ import { useParams, NavLink } from 'react-router-dom';
 import { fetchPredictionExplanation } from '../services/predictions';
 import Spinner from '../components/Spinner';
 import Plot from 'react-plotly.js';
+import usePageTitle from '../hooks/usePageTitle';
 
 export default function ExplanationPage() {
+    usePageTitle('Explanations');
+
     const { id } = useParams();
     const [exp, setExp] = useState(null);
     const [err, setErr] = useState(null);

@@ -14,6 +14,7 @@ import RecommendationsPage from './pages/RecommendationsPage';
 import HistoryPage from './pages/HistoryPage';
 import ProfilePage from './pages/ProfilePage';
 import HelpPage from './pages/HelpPage';
+import NotFound from './components/NotFound';
 import './App.css'
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/help' element={<HelpPage />} />
       </Route>
+
+      {/* 404 Not Found */}
+      <Route path='*' element={<NotFound />} />
     </Routes>
   )
 }

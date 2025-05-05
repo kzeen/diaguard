@@ -11,8 +11,11 @@ import UnreadRecsBanner from '../components/UnreadRecsBanner';
 import StreakCounter from '../components/StreakCounter';
 import Fab from '../components/Fab';
 import LatestRecs from '../components/LatestRecs';
+import usePageTitle from '../hooks/usePageTitle';
 
 export default function DashboardPage() {
+  usePageTitle('Dashboard');
+
   const { user } = useAuth();
   const [latest, setLatest] = useState(null);
   const [tip, setTip] = useState('');
@@ -38,27 +41,27 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-10">
-        <UnreadRecsBanner/>
+      <UnreadRecsBanner />
 
-        <h1 className="text-2xl font-bold">
-            Welcome back, {user.first_name || user.username}!
-        </h1>
+      <h1 className="text-2xl font-bold">
+        Welcome back, {user.first_name || user.username}!
+      </h1>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-            <LastPredictionCard pred={latest} />
-            <HealthTip tip={tip} />
-        </div>
+      <div className="grid lg:grid-cols-2 gap-6">
+        <LastPredictionCard pred={latest} />
+        <HealthTip tip={tip} />
+      </div>
 
-        <RiskTrend/>
+      <RiskTrend />
 
-        <InputsTable/>
-        <StreakCounter/>
+      <InputsTable />
+      <StreakCounter />
 
-        <LatestRecs/>
+      <LatestRecs />
 
-        <Fab/>
+      <Fab />
 
-        <QuickActions />
+      <QuickActions />
     </div>
   );
 }
