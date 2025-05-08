@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from .models import Prediction, Recommendation
 from .serializers import PredictionRequestSerializer, PredictionSerializer, ExplanationSerializer, RecommendationSerializer, RecommendationFeedbackSerializer
+from .pdf_report import build_pdf
+from django.http import HttpResponse
 
 class PredictionsThrottle(UserRateThrottle):
     scope = 'predictions'
@@ -129,3 +131,13 @@ class RecommendationListView(generics.ListAPIView):
         for rec in serializer.data:
             grouped.setdefault(rec['category'], []).append(rec)
         return Response(grouped, status=status.HTTP_200_OK)
+    
+class PredictionPDFView(PredictionDetailView):
+    """GET /api/predictions/<pk>/pdf/ -> PDF download"""
+    def get(self, request, *args, **kwargs):
+        prediction = self.get_object()
+        pdf_bytes = build_pdf(prediction)
+        filename = f"diaguard_report-{prediction.id}.pdf"
+        resp = HttpResponse(pdf_bytes, content_type='application/pdf')
+        resp['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return resp

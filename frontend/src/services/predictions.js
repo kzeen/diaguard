@@ -39,3 +39,6 @@ export const sendRecFeedback = (predictionId, recId, helpful) =>
 
 export const fetchPredictionsList = (params = {}) =>
     API.get("/predictions/all/", { params }).then((r) => r.data);
+
+export const fetchPredictionPdf = (id) =>
+    API.get(`/predictions/${id}/pdf/`, { responseType: "blob" });

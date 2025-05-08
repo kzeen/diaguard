@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
-import { fetchPredictionDetail } from '../services/predictions';
+import { fetchPredictionDetail, fetchPredictionPdf } from '../services/predictions';
 import Spinner from '../components/Spinner';
 import RiskBadge from '../components/RiskBadge';
 import ConfidenceGauge from '../components/ConfidenceGauge';
@@ -9,6 +9,7 @@ import RiskLegend from '../components/RiskLegend';
 import BarColorLegend from '../components/BarColorLegend';
 import MiniRecommendations from '../components/MiniRecommendations';
 import usePageTitle from '../hooks/usePageTitle';
+import toast from 'react-hot-toast';
 
 export default function PredictionResultPage() {
   usePageTitle('Prediction Results');
@@ -53,6 +54,25 @@ export default function PredictionResultPage() {
       'MEDIUM risk: some factors contribute; consider recommendations',
     high: 'HIGH risk: consult a clinician and follow recommendations.',
   };
+
+  const downloadPdf = async () => {
+    toast.loading('Generating PDF...', { id: 'pdf' });
+    try {
+      const { data } = await fetchPredictionPdf(pred.id);
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `diaguard-report-${pred.id}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success('PDF downloaded', { id: 'pdf' });
+    } catch {
+      toast.error('Could not generate PDF', { id: 'pdf' });
+    }
+  }
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
@@ -115,7 +135,7 @@ export default function PredictionResultPage() {
           View Recommendations
         </NavLink>
         <button
-          onClick={() => alert('Coming soon')}
+          onClick={downloadPdf}
           className="px-5 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
           Download as PDF
         </button>
