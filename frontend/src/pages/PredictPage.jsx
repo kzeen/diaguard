@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPrediction } from '../services/predictions';
 import { FormInput, FormSelect } from '../components/FormInput';
@@ -30,7 +30,7 @@ export default function PredictPage() {
   const nav = useNavigate();
 
   const [values, setValues] = useState({
-    gender: user.gender || '',
+    gender: user.gender === 'M' ? 'Male' : user.gender === 'F' ? 'Female' : '',
     age: user.date_of_birth ? calcAge(user.date_of_birth) : '',
     hypertension: false,
     heart_disease: false,
@@ -41,6 +41,15 @@ export default function PredictPage() {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
+  // Prefill gender and age if user profile updates
+  useEffect(() => {
+    setValues(v => ({
+      ...v,
+      gender: user.gender === 'M' ? 'Male' : user.gender === 'F' ? 'Female' : '',
+      age: user.date_of_birth ? calcAge(user.date_of_birth) : v.age,
+    }));
+  }, [user.gender, user.date_of_birth]);
 
   const onChange = (e) => {
     const { name, type, value, checked } = e.target;

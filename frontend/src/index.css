@@ -2,8 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* hide number spinners (Chrome / Safari) */
-input[type='number']::-webkit-outer-spin-button,
-input[type='number']::-webkit-inner-spin-button {
-    @apply appearance-none;
+/* Hide number-input spinners in WebKit browsers (Chrome, Safari, Edge) */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide number-input arrow in Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
