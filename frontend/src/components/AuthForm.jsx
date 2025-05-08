@@ -3,8 +3,8 @@ import ErrorBanner from './ErrorBanner';
 
 export default function AuthForm({ mode = 'login', onSubmit, loading, error }) {
   const [username, setUsername] = useState('');
-  const [email, setEmail]       = useState('');
-  const [password, setPass]     = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPass] = useState('');
 
   const handle = (e) => {
     e.preventDefault();
@@ -60,14 +60,15 @@ export default function AuthForm({ mode = 'login', onSubmit, loading, error }) {
       </div>
 
       <button
+        type="submit"
         disabled={loading}
         className="w-full bg-primary text-white py-2 rounded hover:bg-primary/90 transition"
       >
         {loading
           ? 'Please wait…'
           : mode === 'login'
-          ? 'Log in'
-          : 'Create account'}
+            ? 'Log in'
+            : 'Create account'}
       </button>
     </form>
   );

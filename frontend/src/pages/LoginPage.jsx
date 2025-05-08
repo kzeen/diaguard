@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AuthForm from '../components/AuthForm';
 import { useAuth } from '../context/AuthContext';
@@ -13,6 +13,15 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState('');
 
+  // On mount, check for a saved login error from sessionStorage
+  useEffect(() => {
+    const savedError = sessionStorage.getItem('loginError');
+    if (savedError) {
+      setErr(savedError);
+      sessionStorage.removeItem('loginError');
+    }
+  }, []);
+
   const handleLogin = async (username, password) => {
     try {
       setErr('');
@@ -21,7 +30,10 @@ export default function LoginPage() {
       nav('/dashboard', { replace: true });
       window.scrollTo(0, 0);
     } catch (e) {
-      setErr(formatError(e.response?.data));
+      // Persist the formatted error and reload
+      const msg = formatError(e.response?.data);
+      sessionStorage.setItem('loginError', msg);
+      window.location.reload();
     } finally {
       setLoading(false);
     }

@@ -2,6 +2,7 @@ from rest_framework import generics, permissions, authentication, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.throttling import UserRateThrottle
+from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from .models import Prediction, Recommendation
@@ -67,7 +68,7 @@ class PredictionDetailView(generics.RetrieveAPIView):
         """
         obj = super().get_object()
         if obj.health_input.user != self.request.user:
-            raise permissions.PermissionDenied('Not allowed.')
+            raise PermissionDenied('Not allowed.')
         return obj
 
 # GET /api/predictions/all/  or  /api/predictions/latest/
@@ -101,7 +102,7 @@ class ExplanationDetailView(generics.RetrieveAPIView):
     def get_object(self):
         prediction = get_object_or_404(Prediction, pk=self.kwargs['pk'])
         if prediction.health_input.user != self.request.user:
-            raise permissions.PermissionDenied('Not allowed.')
+            raise PermissionDenied('Not allowed.')
         return prediction.explanation
 
 # GET /api/predictions/<pk>/recommendations/
