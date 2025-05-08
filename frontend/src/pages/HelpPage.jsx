@@ -55,40 +55,36 @@ export default function HelpPage() {
                     Email:&nbsp;
                     <a
                         href="mailto:karlzeeny@gmail.com"
-                        className="text-primary hover:underline"
-                    >
+                        className="text-primary hover:underline">
                         karlzeeny@gmail.com
                     </a>
                 </p>
 
-                {/* simulated contact form */}
+                {/* contact form */}
                 <div className="space-y-3">
                     <input
                         type="text"
                         placeholder="Subject"
                         className="w-full border rounded p-3 text-sm"
                         value={form.subject}
-                        onChange={(e) => handle('subject', e.target.value)}
-                    />
+                        onChange={(e) => handle('subject', e.target.value)} />
                     <textarea
                         rows={4}
-                        placeholder="Your message (this demo does not send email)"
+                        placeholder="Your message"
                         className="w-full border rounded p-3 text-sm resize-none"
                         value={form.message}
-                        onChange={(e) => handle('message', e.target.value)}
-                    />
+                        onChange={(e) => handle('message', e.target.value)} />
 
                     <button
                         onClick={fakeSend}
                         disabled={!form.subject || !form.message}
-                        className="py-2 px-6 bg-primary text-white rounded disabled:opacity-40"
-                    >
+                        className="py-2 px-6 bg-primary text-white rounded disabled:opacity-40">
                         Send message
                     </button>
 
                     {sent && (
                         <p className="flex items-center gap-1 text-sm text-green-600">
-                            <CheckCircleIcon size={16} /> Message queued — thanks!
+                            <CheckCircleIcon size={16} /> Thanks! We'll get back to you.
                         </p>
                     )}
                 </div>
