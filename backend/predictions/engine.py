@@ -5,7 +5,7 @@ from .models import Recommendation, RecommendationTemplate
 from .rules_loader import load_recommendation_rules
 
 TEMPLATE_CACHE_KEY = 'recommendation_template_map'
-TEMPLATE_TTL       = 24 * 3600
+TEMPLATE_TTL = 24 * 3600
 
 def _get_template_map():
     """

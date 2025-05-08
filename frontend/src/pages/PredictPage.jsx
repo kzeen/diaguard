@@ -6,6 +6,7 @@ import Spinner from '../components/Spinner';
 import ButtonSpinner from '../components/ButtonSpinner';
 import { useAuth } from '../context/AuthContext';
 import usePageTitle from '../hooks/usePageTitle';
+import toast from 'react-hot-toast';
 
 const genderOpts = ['Male', 'Female', 'Other'];
 const smokeOpts = [
@@ -92,7 +93,7 @@ export default function PredictPage() {
       nav(`/predict/${pred.id}/result`);
     } catch (err) {
       if (err.response?.status === 400) handleBackendErrors(err.response.data);
-      else alert('Submission failed');
+      else toast.error('Submission failed');
     } finally {
       setLoading(false);
     }
@@ -101,7 +102,7 @@ export default function PredictPage() {
   if (loading && !Object.keys(errors).length) return <Spinner />;
 
   return (
-    <div className="max-w-2xl mx-auto bg-white shadow rounded-lg p-8">
+    <div className="max-w-screen-md mx-auto bg-white shadow rounded-lg p-8">
       <h2 className="text-xl font-bold mb-6 text-center">
         New Prediction Input
       </h2>

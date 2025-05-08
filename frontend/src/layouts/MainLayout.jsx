@@ -22,7 +22,7 @@ export default function MainLayout() {
     <div className="min-h-screen flex flex-col bg-light font-sans text-dark">
       {/* ---------- header ---------- */}
       <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-8 flex justify-between items-center h-16">
+        <div className="max-w-screen-xl mx-auto px-8 flex justify-between items-center h-16">
           <NavLink to="/" className="text-2xl font-extrabold text-primary">
             DiaGuard
           </NavLink>
@@ -46,13 +46,13 @@ export default function MainLayout() {
       </header>
 
       {/* ---------- main ---------- */}
-      <main className="flex-1 max-w-7xl mx-auto px-8 py-10">
+      <main className="flex-1 max-w-screen-xl mx-auto px-8 py-10">
         <Outlet />
       </main>
 
       {/* ---------- footer ---------- */}
       <footer className="bg-white border-t">
-        <div className="max-w-7xl mx-auto px-8 py-6 text-center text-sm text-gray-500">
+        <div className="max-w-screen-xl mx-auto px-8 py-6 text-center text-sm text-gray-500">
           &copy; {new Date().getFullYear()} DiaGuard. All rights reserved.
         </div>
       </footer>
